@@ -1,9 +1,14 @@
-import React from 'react';
+import { Flex } from "@chakra-ui/core"
+import React from "react"
+import { FormLogin } from "../components"
 
-function Login(){
+export default function Login() {
     return (
-        <h1>Login Page</h1>
+        <Flex>
+            <Flex flex="2" direction="column" h="100vh" px="2" py="6"></Flex>
+            <Flex flex="1" justifyContent="center" align="center">
+                <FormLogin />
+            </Flex>
+        </Flex>
     )
 }
-
-export default Login

@@ -8,6 +8,8 @@ import Leaderboard from "./Leaderboard"
 import AddFormWacana from "./AddFormWacana"
 import AddFormUser from "./AddFormUser"
 import DetailWacana from "./DetailWacana"
+import AddArtikelForm from "./AddArtikelForm"
+import AddSoalForm from "./AddSoalForm"
 
 export {
     AddFormWacana,
@@ -20,4 +22,6 @@ export {
     Leaderboard,
     AddFormUser,
     DetailWacana,
+    AddArtikelForm,
+    AddSoalForm,
 }

@@ -10,6 +10,8 @@ import {
     AddFormWacana,
     AddFormUser,
     DetailWacana,
+    AddArtikelForm,
+    AddSoalForm,
 } from "./pages"
 
 function App() {
@@ -31,7 +33,13 @@ function App() {
                 <Route exact path="/wacana">
                     <Wacana />
                 </Route>
-                <Route path="/wacana/:id">
+                <Route exact path="/wacana/:id/add-artikel">
+                    <AddArtikelForm />
+                </Route>
+                <Route exact path="/wacana/:id/add-soal">
+                    <AddSoalForm />
+                </Route>
+                <Route exact path="/wacana/:id">
                     <DetailWacana />
                 </Route>
                 <Route path="/add-wacana">

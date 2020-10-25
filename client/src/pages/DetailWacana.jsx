@@ -12,6 +12,7 @@ import {
 import React from "react"
 import { Sidebar } from "../components"
 import * as table from "../components/table"
+import { Link } from "react-router-dom"
 
 export default function DetailWacana() {
     return (
@@ -36,9 +37,11 @@ export default function DetailWacana() {
                     <TabPanels>
                         <TabPanel>
                             <Flex justify="end">
-                                <Button variantColor="teal" size="md">
-                                    Add Artikel
-                                </Button>
+                                <Link to="/wacana/2/add-artikel">
+                                    <Button variantColor="teal" size="md">
+                                        Add Artikel
+                                    </Button>
+                                </Link>
                             </Flex>
                             <table.Table w="90%" mx="auto" mt="8">
                                 <table.Thead>
@@ -89,9 +92,11 @@ export default function DetailWacana() {
                         </TabPanel>
                         <TabPanel>
                             <Flex justify="end">
-                                <Button variantColor="teal" size="md">
-                                    Add Soal
-                                </Button>
+                                <Link to="/wacana/2/add-soal">
+                                    <Button variantColor="teal" size="md">
+                                        Add Soal
+                                    </Button>
+                                </Link>
                             </Flex>
                             <table.Table w="90%" mx="auto" mt="8">
                                 <table.Thead>
