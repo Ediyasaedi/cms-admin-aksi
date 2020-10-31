@@ -13,26 +13,29 @@ import {
     AddArtikelForm,
     AddSoalForm,
 } from "./pages"
+import { useSelector } from "react-redux"
+import GuardedRoute from "./routes/GuardedRoute"
 
 function App() {
+    const isAutheticated = useSelector((state) => state.auth)
     return (
         <Router>
             <Switch>
-                <Route path="/leaderboard">
-                    <Leaderboard />
-                </Route>
-                <Route path="/about">
-                    <About />
-                </Route>
-                <Route path="/users">
-                    <Users />
-                </Route>
-                <Route path="/login">
-                    <Login />
-                </Route>
-                <Route exact path="/wacana">
-                    <Wacana />
-                </Route>
+                <Route path="/login" component={Login} />
+                <GuardedRoute path="/about" component={About} isAutheticated />
+                <GuardedRoute
+                    path="/leaderboard"
+                    component={Leaderboard}
+                    isAutheticated
+                />
+                <GuardedRoute path="/users" component={Users} isAutheticated />
+                <GuardedRoute
+                    exact
+                    path="/wacana"
+                    component={Wacana}
+                    auth
+                    isAutheticated
+                />
                 <Route exact path="/wacana/:id/add-artikel">
                     <AddArtikelForm />
                 </Route>
