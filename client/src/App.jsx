@@ -12,48 +12,48 @@ import {
     DetailWacana,
     AddArtikelForm,
     AddSoalForm,
+    EditFormUser,
 } from "./pages"
-import { useSelector } from "react-redux"
 import GuardedRoute from "./routes/GuardedRoute"
 
 function App() {
-    const isAutheticated = useSelector((state) => state.auth)
     return (
         <Router>
             <Switch>
                 <Route path="/login" component={Login} />
-                <GuardedRoute path="/about" component={About} isAutheticated />
-                <GuardedRoute
-                    path="/leaderboard"
-                    component={Leaderboard}
-                    isAutheticated
-                />
-                <GuardedRoute path="/users" component={Users} isAutheticated />
-                <GuardedRoute
-                    exact
-                    path="/wacana"
-                    component={Wacana}
-                    auth
-                    isAutheticated
-                />
-                <Route exact path="/wacana/:id/add-artikel">
+                <GuardedRoute path="/about">
+                    <About />
+                </GuardedRoute>
+                <GuardedRoute path="/leaderboard">
+                    <Leaderboard />
+                </GuardedRoute>
+                <GuardedRoute path="/users">
+                    <Users />
+                </GuardedRoute>
+                <GuardedRoute exact path="/wacana">
+                    <Wacana />
+                </GuardedRoute>
+                <GuardedRoute exact path="/wacana/:id/add-artikel">
                     <AddArtikelForm />
-                </Route>
-                <Route exact path="/wacana/:id/add-soal">
+                </GuardedRoute>
+                <GuardedRoute exact path="/wacana/:id/add-soal">
                     <AddSoalForm />
-                </Route>
-                <Route exact path="/wacana/:id">
+                </GuardedRoute>
+                <GuardedRoute exact path="/wacana/:id">
                     <DetailWacana />
-                </Route>
-                <Route path="/add-wacana">
+                </GuardedRoute>
+                <GuardedRoute path="/add-wacana">
                     <AddFormWacana />
-                </Route>
-                <Route path="/add-user">
+                </GuardedRoute>
+                <GuardedRoute path="/add-user">
                     <AddFormUser />
-                </Route>
-                <Route path="/">
+                </GuardedRoute>
+                <GuardedRoute path="/edit-user/:id">
+                    <EditFormUser />
+                </GuardedRoute>
+                <GuardedRoute path="/">
                     <Home />
-                </Route>
+                </GuardedRoute>
             </Switch>
         </Router>
     )

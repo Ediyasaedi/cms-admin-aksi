@@ -1,10 +1,33 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { Navbar, Sidebar } from "../components"
 import * as table from "../components/table"
 import { Button, Flex, IconButton, FormControl, Input } from "@chakra-ui/core"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { getUsers, deleteUser, getOneUser } from "../store/action"
 
 function Users() {
+    const dispatch = useDispatch()
+    const history = useHistory()
+    const siswaArr = useSelector((state) => state.users.siswas)
+    const [role, setRole] = useState("siswa")
+
+    console.log(siswaArr)
+
+    useEffect(() => {
+        dispatch(getUsers(role))
+    }, [])
+
+    function dltUser(id) {
+        dispatch(deleteUser(id))
+        dispatch(getUsers(role))
+    }
+
+    function edtUser(id) {
+        dispatch(getOneUser(id))
+        history.push(`/edit-user/${id}`)
+    }
+
     return (
         <Flex>
             <Flex
@@ -55,24 +78,34 @@ function Users() {
                             </table.Tr>
                         </table.Thead>
                         <table.TBody>
-                            <table.Tr>
-                                <table.Td>jhondoe@mail.com</table.Td>
-                                <table.Td>Jhon Emmanuel Doe</table.Td>
-                                <table.Td>http://bit.ly/fake-imgurl</table.Td>
-                                <table.Td>Siswa</table.Td>
-                                <table.Td>
-                                    <IconButton
-                                        mr="2"
-                                        aria-label="update"
-                                        icon="edit"
-                                    />
-                                    <IconButton
-                                        mr="2"
-                                        aria-label="delete"
-                                        icon="delete"
-                                    />
-                                </table.Td>
-                            </table.Tr>
+                            {siswaArr.map((siswa) => {
+                                return (
+                                    <table.Tr key={siswa.id}>
+                                        <table.Td>{siswa.email}</table.Td>
+                                        <table.Td>{siswa.name}</table.Td>
+                                        <table.Td>{siswa.img_url}</table.Td>
+                                        <table.Td>{siswa.role}</table.Td>
+                                        <table.Td>
+                                            <IconButton
+                                                mr="2"
+                                                aria-label="update"
+                                                icon="edit"
+                                                onClick={() =>
+                                                    edtUser(siswa.id)
+                                                }
+                                            />
+                                            <IconButton
+                                                mr="2"
+                                                aria-label="delete"
+                                                icon="delete"
+                                                onClick={() =>
+                                                    dltUser(siswa.id)
+                                                }
+                                            />
+                                        </table.Td>
+                                    </table.Tr>
+                                )
+                            })}
                         </table.TBody>
                     </table.Table>
                 </Flex>

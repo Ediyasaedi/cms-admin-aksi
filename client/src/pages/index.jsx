@@ -10,6 +10,7 @@ import AddFormUser from "./AddFormUser"
 import DetailWacana from "./DetailWacana"
 import AddArtikelForm from "./AddArtikelForm"
 import AddSoalForm from "./AddSoalForm"
+import EditFormUser from "./EditFormUser"
 
 export {
     AddFormWacana,
@@ -24,4 +25,5 @@ export {
     DetailWacana,
     AddArtikelForm,
     AddSoalForm,
+    EditFormUser,
 }

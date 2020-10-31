@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import {
     Button,
     Flex,
@@ -10,20 +10,31 @@ import {
     Text,
 } from "@chakra-ui/core"
 import { Sidebar } from "../components"
-import { useDispatch } from "react-redux"
-import { createdUser } from "../store/action"
-import { useHistory } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { updatedUser } from "../store/action"
+import { useHistory, useParams } from "react-router-dom"
 
-function AddFormUser() {
+function EditFormUser() {
     const dispatch = useDispatch()
     const history = useHistory()
+    const { id } = useParams()
+    const user = useSelector((state) => state.users.user)
     const [form, setForm] = useState({
         name: "",
         email: "",
-        password: "",
         img_url: "",
         role: "",
+        password: "",
     })
+
+    useEffect(() => {
+        setForm({
+            name: user.name,
+            email: user.email,
+            img_url: user.img_url,
+            role: user.role,
+        })
+    }, [user])
 
     function handleOnChange(e) {
         let { name, value } = e.target
@@ -33,7 +44,8 @@ function AddFormUser() {
 
     function handleOnSubmit(e) {
         e.preventDefault()
-        dispatch(createdUser(form))
+        console.log(form)
+        dispatch(updatedUser({ ...form, id }))
         history.push("/users")
     }
 
@@ -51,7 +63,7 @@ function AddFormUser() {
             </Flex>
             <Flex flex="4" direction="column" padding="10" w="80%">
                 <Flex flex="1" flexDirection="column">
-                    <Heading mb="6">Add New User Here!</Heading>
+                    <Heading mb="6">Edit User with ID: {id}</Heading>
                     <form onSubmit={handleOnSubmit}>
                         <FormControl w="80%" mb="4">
                             <FormLabel mb="1">Email</FormLabel>
@@ -64,13 +76,13 @@ function AddFormUser() {
                             />
                         </FormControl>
                         <FormControl w="80%" mb="4">
-                            <FormLabel mb="1">Pasword</FormLabel>
+                            <FormLabel mb="1">Password</FormLabel>
                             <Input
                                 type="text"
                                 name="password"
                                 value={form.password}
                                 onChange={handleOnChange}
-                                placeholder="Put user password here"
+                                placeholder="Put new user password here"
                             />
                         </FormControl>
                         <FormControl w="80%" mb="4">
@@ -121,4 +133,4 @@ function AddFormUser() {
     )
 }
 
-export default AddFormUser
+export default EditFormUser

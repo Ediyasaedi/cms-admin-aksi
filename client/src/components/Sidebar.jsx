@@ -8,9 +8,17 @@ import {
     MdArrowBack,
     MdGrade,
 } from "react-icons/md"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { logout } from "../store/action"
 
 export default function Sidebar() {
+    const history = useHistory()
+    const dispatch = useDispatch()
+    function logoutAdmin() {
+        history.push("/login")
+        localStorage.clear()
+    }
     return (
         <React.Fragment>
             <Flex
@@ -83,15 +91,14 @@ export default function Sidebar() {
                 </Link>
             </Flex>
             <Flex w="100%" flexDirection="row" cursor="pointer">
-                <Link to="/login">
-                    <Button
-                        color="gray.200"
-                        leftIcon={MdArrowBack}
-                        variantColor="#56657F"
-                    >
-                        Logout
-                    </Button>
-                </Link>
+                <Button
+                    color="gray.200"
+                    leftIcon={MdArrowBack}
+                    variantColor="#56657F"
+                    onClick={logoutAdmin}
+                >
+                    Logout
+                </Button>
             </Flex>
         </React.Fragment>
     )
