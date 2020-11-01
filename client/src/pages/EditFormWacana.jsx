@@ -11,13 +11,15 @@ import {
 } from "@chakra-ui/core"
 import { Navbar, Sidebar } from "../components"
 import { useDispatch, useSelector } from "react-redux"
-import { getUsers, createdWacana } from "../store/action"
-import { useHistory } from "react-router-dom"
+import { getUsers, updatedWacana } from "../store/action"
+import { useHistory, useParams } from "react-router-dom"
 
-function AddFormWacana() {
+function EditFormWacana() {
+    const wacana = useSelector((state) => state.wacana.wacana)
     const penulisArr = useSelector((state) => state.users.penulis)
     const dispatch = useDispatch()
     const history = useHistory()
+    const { id } = useParams()
     const [form, setForm] = useState({
         title: "",
         img_url: "",
@@ -26,21 +28,28 @@ function AddFormWacana() {
     })
 
     useEffect(() => {
+        setForm({
+            title: wacana.title,
+            kelas: wacana.kelas,
+            img_url: wacana.img_url,
+            UserId: wacana.UserId,
+        })
         dispatch(getUsers("penulis"))
-    }, [])
+    }, [wacana])
 
     function handleOnChange(e) {
         let { name, value } = e.target
         let newForm = {
             ...form,
             [name]: value,
+            id,
         }
         setForm(newForm)
     }
 
     function handleOnSubmit(e) {
         e.preventDefault()
-        dispatch(createdWacana(form))
+        dispatch(updatedWacana(form))
         history.push("/wacana")
     }
 
@@ -58,7 +67,7 @@ function AddFormWacana() {
             </Flex>
             <Flex flex="4" direction="column" padding="10" w="80%">
                 <Flex flex="1" flexDirection="column">
-                    <Heading mb="6">Add New Wacana Here!</Heading>
+                    <Heading mb="6">Update Wacana With ID: {id}</Heading>
                     <form onSubmit={handleOnSubmit}>
                         <FormControl w="80%" mb="4">
                             <FormLabel mb="1">Wacana Title</FormLabel>
@@ -128,4 +137,4 @@ function AddFormWacana() {
     )
 }
 
-export default AddFormWacana
+export default EditFormWacana

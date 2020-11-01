@@ -13,6 +13,8 @@ import {
     AddArtikelForm,
     AddSoalForm,
     EditFormUser,
+    EditFormWacana,
+    EditArtikelForm,
 } from "./pages"
 import GuardedRoute from "./routes/GuardedRoute"
 
@@ -50,6 +52,12 @@ function App() {
                 </GuardedRoute>
                 <GuardedRoute path="/edit-user/:id">
                     <EditFormUser />
+                </GuardedRoute>
+                <GuardedRoute path="/edit-wacana/:id">
+                    <EditFormWacana />
+                </GuardedRoute>
+                <GuardedRoute path="/edit-article/:idwacana/:idarticle">
+                    <EditArtikelForm />
                 </GuardedRoute>
                 <GuardedRoute path="/">
                     <Home />

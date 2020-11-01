@@ -4,6 +4,10 @@ import {
     SET_PENULIS,
     SET_SISWA,
     SET_USER,
+    SET_WACANAS,
+    SET_WACANA,
+    SET_ARTICLES,
+    SET_ARTICLE,
 } from "./action-types"
 
 const baseUrl = "http://localhost:3000"
@@ -44,6 +48,34 @@ export const setPenulis = (payload) => {
 export const setUser = (payload) => {
     return {
         type: SET_USER,
+        payload,
+    }
+}
+
+export const setWacanas = (payload) => {
+    return {
+        type: SET_WACANAS,
+        payload,
+    }
+}
+
+export const setWacana = (payload) => {
+    return {
+        type: SET_WACANA,
+        payload,
+    }
+}
+
+export const setArticles = (payload) => {
+    return {
+        type: SET_ARTICLES,
+        payload,
+    }
+}
+
+export const setArticle = (payload) => {
+    return {
+        type: SET_ARTICLE,
         payload,
     }
 }
@@ -113,6 +145,138 @@ export const deleteUser = (payload) => {
             })
             .then(({ data }) => {
                 dispatch(getUsers)
+            })
+            .catch(console.log)
+    }
+}
+
+export const getWacanas = (payload) => {
+    return (dispatch) => {
+        axios
+            .get(`${baseUrl}/admin/wacana`, {
+                headers: { access_token: localStorage.getItem("access_token") },
+            })
+            .then(({ data }) => {
+                dispatch(setWacanas(data.wacanas))
+            })
+            .catch(console.log)
+    }
+}
+
+export const getOneWacana = (payload) => {
+    return (dispatch) => {
+        axios
+            .get(`${baseUrl}/admin/wacana/${payload}`, {
+                headers: { access_token: localStorage.getItem("access_token") },
+            })
+            .then(({ data }) => {
+                console.log(data)
+                dispatch(setWacana(data.wacana[0]))
+            })
+            .catch(console.log)
+    }
+}
+
+export const createdWacana = (payload) => {
+    return (dispatch) => {
+        axios
+            .post(`${baseUrl}/admin/wacana`, payload, {
+                headers: { access_token: localStorage.getItem("access_token") },
+            })
+            .then(({ data }) => {
+                console.log(data)
+            })
+            .catch(console.log)
+    }
+}
+
+export const updatedWacana = (payload) => {
+    return (dispatch) => {
+        axios
+            .put(`${baseUrl}/admin/wacana/${payload.id}`, payload, {
+                headers: { access_token: localStorage.getItem("access_token") },
+            })
+            .then(({ data }) => {
+                console.log(data)
+            })
+            .catch(console.log)
+    }
+}
+
+export const deleteWacana = (payload) => {
+    return (dispatch) => {
+        axios
+            .delete(`${baseUrl}/admin/wacana/${payload}`, {
+                headers: { access_token: localStorage.getItem("access_token") },
+            })
+            .then(({ data }) => {
+                dispatch(getWacanas)
+            })
+            .catch(console.log)
+    }
+}
+
+export const getArticles = (payload) => {
+    return (dispatch) => {
+        axios
+            .get(`${baseUrl}/admin/article/${payload}`, {
+                headers: { access_token: localStorage.getItem("access_token") },
+            })
+            .then(({ data }) => {
+                dispatch(setArticles(data.article))
+            })
+            .catch(console.log)
+    }
+}
+
+export const getOneArticle = (payload) => {
+    return (dispatch) => {
+        axios
+            .get(`${baseUrl}/admin/article/detail/${payload}`, {
+                headers: { access_token: localStorage.getItem("access_token") },
+            })
+            .then(({ data }) => {
+                console.log(data)
+                dispatch(setArticle(data.article))
+            })
+            .catch(console.log)
+    }
+}
+
+export const createdArticle = (payload) => {
+    return (dispatch) => {
+        axios
+            .post(`${baseUrl}/admin/article`, payload, {
+                headers: { access_token: localStorage.getItem("access_token") },
+            })
+            .then(({ data }) => {
+                console.log(data)
+            })
+            .catch(console.log)
+    }
+}
+
+export const updatedArticle = (payload) => {
+    return (dispatch) => {
+        axios
+            .put(`${baseUrl}/admin/article/${payload.idart}`, payload, {
+                headers: { access_token: localStorage.getItem("access_token") },
+            })
+            .then(({ data }) => {
+                console.log(data)
+            })
+            .catch(console.log)
+    }
+}
+
+export const deleteArticle = (payload) => {
+    return (dispatch) => {
+        axios
+            .delete(`${baseUrl}/admin/article/${payload.articleid}`, {
+                headers: { access_token: localStorage.getItem("access_token") },
+            })
+            .then(({ data }) => {
+                dispatch(getArticles(payload.wacanaid))
             })
             .catch(console.log)
     }

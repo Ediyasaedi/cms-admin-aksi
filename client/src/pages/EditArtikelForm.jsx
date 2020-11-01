@@ -8,21 +8,30 @@ import {
     Input,
     Text,
 } from "@chakra-ui/core"
-import React, { useState } from "react"
-import { useDispatch } from "react-redux"
+import React, { useState, useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useParams } from "react-router-dom"
 import { Sidebar } from "../components"
-import { createdArticle } from "../store/action"
+import { updatedArticle } from "../store/action"
 
-export default function AddArtikelForm() {
+export default function EditArtikelForm() {
     const dispatch = useDispatch()
     const history = useHistory()
-    const { id } = useParams()
+    const article = useSelector((state) => state.article.article)
+    const { idwacana, idarticle } = useParams()
     const [form, setForm] = useState({
         title: "",
         img_url: "",
         content: "",
     })
+
+    useEffect(() => {
+        setForm({
+            title: article.title,
+            img_url: article.img_url,
+            content: article.content,
+        })
+    }, [article])
 
     function handleOnChange(e) {
         let { name, value } = e.target
@@ -30,13 +39,13 @@ export default function AddArtikelForm() {
             ...form,
             [name]: value,
         }
-        setForm({ ...newForm, WacanaId: id })
+        setForm({ ...newForm, idart: idarticle, WacanaId: idwacana })
     }
 
     function handleOnSubmit(e) {
         e.preventDefault()
-        dispatch(createdArticle(form))
-        history.push(`/wacana/${id}`)
+        dispatch(updatedArticle(form))
+        history.push(`/wacana/${idwacana}`)
     }
 
     return (
@@ -54,7 +63,9 @@ export default function AddArtikelForm() {
                 </Flex>
                 <Flex flex="4" paddingY="8" paddingX="4">
                     <Flex flex="1" flexDirection="column" paddingX="2" w="80%">
-                        <Heading mb="6">Add Your Artikel Here!</Heading>
+                        <Heading mb="6">
+                            Detail and Update Artikel Here!
+                        </Heading>
                         <form onSubmit={handleOnSubmit}>
                             <FormControl w="80%" mb="4">
                                 <FormLabel mb="1">Artikel Title</FormLabel>

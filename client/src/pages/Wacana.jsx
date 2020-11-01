@@ -1,10 +1,34 @@
 import { Button, Flex, IconButton, FormControl, Input } from "@chakra-ui/core"
-import React from "react"
+import React, { useEffect } from "react"
 import { Navbar, Sidebar } from "../components"
 import * as table from "../components/table"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { getWacanas, deleteWacana, getOneWacana } from "../store/action"
 
 function Wacana() {
+    const wacanas = useSelector((state) => state.wacana.wacanas)
+    const dispatch = useDispatch()
+    const history = useHistory()
+
+    useEffect(() => {
+        dispatch(getWacanas())
+    }, [])
+
+    function dltWacana(id) {
+        dispatch(deleteWacana(id))
+        dispatch(getWacanas())
+    }
+
+    function edtWacana(id) {
+        dispatch(getOneWacana(id))
+        history.push(`/edit-wacana/${id}`)
+    }
+
+    function attachWacana(id) {
+        history.push(`/wacana/${id}`)
+    }
+
     return (
         <Flex>
             <Flex
@@ -55,31 +79,54 @@ function Wacana() {
                             </table.Tr>
                         </table.Thead>
                         <table.TBody>
-                            <table.Tr>
-                                <table.Td>Memulai Kembali</table.Td>
-                                <table.Td>http://bit.ly/fakeurl</table.Td>
-                                <table.Td>X (Sepuluh)</table.Td>
-                                <table.Td>Rahajeng Ayu</table.Td>
-                                <table.Td>
-                                    <Link to="/wacana/2">
-                                        <IconButton
-                                            mr="2"
-                                            aria-label="add questions"
-                                            icon="attachment"
-                                        />
-                                    </Link>
-                                    <IconButton
-                                        mr="2"
-                                        aria-label="update"
-                                        icon="edit"
-                                    />
-                                    <IconButton
-                                        mr="2"
-                                        aria-label="delete"
-                                        icon="delete"
-                                    />
-                                </table.Td>
-                            </table.Tr>
+                            {wacanas.length > 0
+                                ? wacanas.map((wacana) => {
+                                      return (
+                                          <table.Tr key={wacana.id}>
+                                              <table.Td>
+                                                  {wacana.title}
+                                              </table.Td>
+                                              <table.Td>
+                                                  {wacana.img_url}
+                                              </table.Td>
+                                              <table.Td>
+                                                  {wacana.kelas}
+                                              </table.Td>
+                                              <table.Td>
+                                                  {wacana.User.name}
+                                              </table.Td>
+                                              <table.Td>
+                                                  <IconButton
+                                                      mr="2"
+                                                      aria-label="add questions"
+                                                      icon="attachment"
+                                                      onClick={() =>
+                                                          attachWacana(
+                                                              wacana.id
+                                                          )
+                                                      }
+                                                  />
+                                                  <IconButton
+                                                      mr="2"
+                                                      aria-label="update"
+                                                      icon="edit"
+                                                      onClick={() =>
+                                                          edtWacana(wacana.id)
+                                                      }
+                                                  />
+                                                  <IconButton
+                                                      mr="2"
+                                                      aria-label="delete"
+                                                      icon="delete"
+                                                      onClick={() =>
+                                                          dltWacana(wacana.id)
+                                                      }
+                                                  />
+                                              </table.Td>
+                                          </table.Tr>
+                                      )
+                                  })
+                                : ""}
                         </table.TBody>
                     </table.Table>
                 </Flex>
