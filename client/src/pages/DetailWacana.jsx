@@ -12,13 +12,16 @@ import {
 import React, { useEffect } from "react"
 import { Sidebar } from "../components"
 import * as table from "../components/table"
-import { Link, useHistory, useParams } from "react-router-dom"
+import { useHistory, useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import {
     getOneWacana,
     getArticles,
     deleteArticle,
     getOneArticle,
+    getQuestions,
+    deleteQuestion,
+    getOneSoal,
 } from "../store/action"
 
 export default function DetailWacana() {
@@ -27,14 +30,20 @@ export default function DetailWacana() {
     const history = useHistory()
     const wacana = useSelector((state) => state.wacana.wacana)
     const articles = useSelector((state) => state.article.articles)
+    const questions = useSelector((state) => state.question.questions)
 
     useEffect(() => {
         dispatch(getOneWacana(id))
         dispatch(getArticles(id))
+        dispatch(getQuestions(id))
     }, [])
 
     function addArtcle() {
         history.push(`/wacana/${id}/add-artikel`)
+    }
+
+    function addQuestionForm() {
+        history.push(`/wacana/${id}/add-soal`)
     }
 
     function editArt(artid) {
@@ -44,6 +53,15 @@ export default function DetailWacana() {
 
     function delArt(artid) {
         dispatch(deleteArticle({ articleid: artid, wacanaid: id }))
+    }
+
+    function editQuestion(qstid) {
+        dispatch(getOneSoal(qstid))
+        history.push(`/edit-soal/${id}/${qstid}`)
+    }
+
+    function delQuetion(qstid) {
+        dispatch(deleteQuestion({ questionid: qstid, wacanaid: id }))
     }
 
     return (
@@ -130,11 +148,13 @@ export default function DetailWacana() {
                         </TabPanel>
                         <TabPanel>
                             <Flex justify="end">
-                                <Link to="/wacana/2/add-soal">
-                                    <Button variantColor="teal" size="md">
-                                        Add Soal
-                                    </Button>
-                                </Link>
+                                <Button
+                                    variantColor="teal"
+                                    size="md"
+                                    onClick={addQuestionForm}
+                                >
+                                    Add Soal
+                                </Button>
                             </Flex>
                             <table.Table w="90%" mx="auto" mt="8">
                                 <table.Thead>
@@ -155,28 +175,54 @@ export default function DetailWacana() {
                                     </table.Tr>
                                 </table.Thead>
                                 <table.TBody>
-                                    <table.Tr>
-                                        <table.Td>
-                                            Berapakah jumlah kaki ayam?
-                                        </table.Td>
-                                        <table.Td>Satu</table.Td>
-                                        <table.Td>Dua</table.Td>
-                                        <table.Td>Tiga</table.Td>
-                                        <table.Td>Empat</table.Td>
-                                        <table.Td>Dua</table.Td>
-                                        <table.Td>
-                                            <IconButton
-                                                mr="2"
-                                                aria-label="update"
-                                                icon="edit"
-                                            />
-                                            <IconButton
-                                                mr="2"
-                                                aria-label="delete"
-                                                icon="delete"
-                                            />
-                                        </table.Td>
-                                    </table.Tr>
+                                    {questions.length > 0
+                                        ? questions.map((qstn) => {
+                                              return (
+                                                  <table.Tr>
+                                                      <table.Td>
+                                                          {qstn.soal}
+                                                      </table.Td>
+                                                      <table.Td>
+                                                          {qstn.pilihan_a}
+                                                      </table.Td>
+                                                      <table.Td>
+                                                          {qstn.pilihan_b}
+                                                      </table.Td>
+                                                      <table.Td>
+                                                          {qstn.pilihan_c}
+                                                      </table.Td>
+                                                      <table.Td>
+                                                          {qstn.pilihan_d}
+                                                      </table.Td>
+                                                      <table.Td>
+                                                          {qstn.kunci_jawaban}
+                                                      </table.Td>
+                                                      <table.Td>
+                                                          <IconButton
+                                                              mr="2"
+                                                              aria-label="update"
+                                                              icon="edit"
+                                                              onClick={() =>
+                                                                  editQuestion(
+                                                                      qstn.id
+                                                                  )
+                                                              }
+                                                          />
+                                                          <IconButton
+                                                              mr="2"
+                                                              aria-label="delete"
+                                                              icon="delete"
+                                                              onClick={() =>
+                                                                  delQuetion(
+                                                                      qstn.id
+                                                                  )
+                                                              }
+                                                          />
+                                                      </table.Td>
+                                                  </table.Tr>
+                                              )
+                                          })
+                                        : ""}
                                 </table.TBody>
                             </table.Table>
                         </TabPanel>

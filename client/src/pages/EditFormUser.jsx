@@ -44,7 +44,6 @@ function EditFormUser() {
 
     function handleOnSubmit(e) {
         e.preventDefault()
-        console.log(form)
         dispatch(updatedUser({ ...form, id }))
         history.push("/users")
     }

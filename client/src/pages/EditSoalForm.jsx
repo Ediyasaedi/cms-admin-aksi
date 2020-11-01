@@ -7,16 +7,17 @@ import {
     Input,
     Text,
 } from "@chakra-ui/core"
-import React, { useState } from "react"
-import { useDispatch } from "react-redux"
+import React, { useState, useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useParams } from "react-router-dom"
 import { Sidebar } from "../components"
-import { createdQuestion } from "../store/action"
+import { updatedQuestion } from "../store/action"
 
-export default function AddSoalForm() {
-    const { id } = useParams()
+export default function EditSoalForm() {
+    const { idwacana, idquestion } = useParams()
     const history = useHistory()
     const dispatch = useDispatch()
+    const question = useSelector((state) => state.question.question)
     const [form, setForm] = useState({
         soal: "",
         img_url: "",
@@ -27,19 +28,31 @@ export default function AddSoalForm() {
         kunci_jawaban: "",
     })
 
+    useEffect(() => {
+        setForm({
+            soal: question.soal,
+            img_url: question.img_url,
+            pilihan_a: question.pilihan_a,
+            pilihan_b: question.pilihan_b,
+            pilihan_c: question.pilihan_c,
+            pilihan_d: question.pilihan_d,
+            kunci_jawaban: question.kunci_jawaban,
+        })
+    }, [question])
+
     function handleOnChange(e) {
         let { name, value } = e.target
         let newForm = {
             ...form,
             [name]: value,
         }
-        setForm({ ...newForm, WacanaId: id })
+        setForm({ ...newForm, idquestion, WacanaId: idwacana })
     }
 
     function handleOnSubmit(e) {
         e.preventDefault()
-        dispatch(createdQuestion(form))
-        history.push(`/wacana/${id}`)
+        dispatch(updatedQuestion(form))
+        history.push(`/wacana/${idwacana}`)
     }
 
     return (
@@ -56,7 +69,7 @@ export default function AddSoalForm() {
                 </Flex>
                 <Flex flex="4" paddingY="8" paddingX="4">
                     <Flex flex="1" flexDirection="column" paddingX="2" w="80%">
-                        <Heading mb="6">Add Your Soal Here!</Heading>
+                        <Heading mb="6">Update Your Soal Here!</Heading>
                         <form onSubmit={handleOnSubmit}>
                             <FormControl w="80%" mb="4">
                                 <FormLabel mb="1">Pertanyaan</FormLabel>

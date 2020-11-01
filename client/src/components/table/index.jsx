@@ -70,7 +70,7 @@ export const Thead = ({ children, ...rest }) => {
 
 export const TBody = ({ children, ...rest }) => {
     return (
-        <Box as="tbody" {...rest}>
+        <Box as="tbody" {...rest} style={{ overflow: "scroll" }}>
             {children}
         </Box>
     )

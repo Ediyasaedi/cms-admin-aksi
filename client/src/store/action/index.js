@@ -8,6 +8,8 @@ import {
     SET_WACANA,
     SET_ARTICLES,
     SET_ARTICLE,
+    SET_QUESTION,
+    SET_QUESTIONS,
 } from "./action-types"
 
 const baseUrl = "http://localhost:3000"
@@ -16,18 +18,6 @@ export const setAuth = (payload) => {
     return {
         type: IS_AUTHENTICATION,
         payload,
-    }
-}
-
-export const postLogin = (payload) => {
-    return (dispatch) => {
-        axios
-            .post(`${baseUrl}/login`, payload)
-            .then(({ data }) => {
-                localStorage.setItem("access_token", data.token)
-                dispatch(setAuth(true))
-            })
-            .catch(console.log)
     }
 }
 
@@ -80,6 +70,32 @@ export const setArticle = (payload) => {
     }
 }
 
+export const setQuestions = (payload) => {
+    return {
+        type: SET_QUESTIONS,
+        payload,
+    }
+}
+
+export const setQuestion = (payload) => {
+    return {
+        type: SET_QUESTION,
+        payload,
+    }
+}
+
+export const postLogin = (payload) => {
+    return (dispatch) => {
+        axios
+            .post(`${baseUrl}/login`, payload)
+            .then(({ data }) => {
+                localStorage.setItem("access_token", data.token)
+                dispatch(setAuth(true))
+            })
+            .catch(console.log)
+    }
+}
+
 export const getUsers = (payload) => {
     return (dispatch) => {
         axios
@@ -104,7 +120,6 @@ export const getOneUser = (payload) => {
                 headers: { access_token: localStorage.getItem("access_token") },
             })
             .then(({ data }) => {
-                console.log(data)
                 dispatch(setUser(data.user))
             })
             .catch(console.log)
@@ -170,7 +185,6 @@ export const getOneWacana = (payload) => {
                 headers: { access_token: localStorage.getItem("access_token") },
             })
             .then(({ data }) => {
-                console.log(data)
                 dispatch(setWacana(data.wacana[0]))
             })
             .catch(console.log)
@@ -236,7 +250,6 @@ export const getOneArticle = (payload) => {
                 headers: { access_token: localStorage.getItem("access_token") },
             })
             .then(({ data }) => {
-                console.log(data)
                 dispatch(setArticle(data.article))
             })
             .catch(console.log)
@@ -277,6 +290,71 @@ export const deleteArticle = (payload) => {
             })
             .then(({ data }) => {
                 dispatch(getArticles(payload.wacanaid))
+            })
+            .catch(console.log)
+    }
+}
+
+export const getQuestions = (payload) => {
+    return (dispatch) => {
+        axios
+            .get(`${baseUrl}/admin/question/${payload}`, {
+                headers: { access_token: localStorage.getItem("access_token") },
+            })
+            .then(({ data }) => {
+                dispatch(setQuestions(data.question))
+            })
+            .catch(console.log)
+    }
+}
+
+export const getOneSoal = (payload) => {
+    return (dispatch) => {
+        axios
+            .get(`${baseUrl}/admin/question/detail/${payload}`, {
+                headers: { access_token: localStorage.getItem("access_token") },
+            })
+            .then(({ data }) => {
+                dispatch(setQuestion(data.question))
+            })
+            .catch(console.log)
+    }
+}
+
+export const createdQuestion = (payload) => {
+    return (dispatch) => {
+        axios
+            .post(`${baseUrl}/admin/question`, payload, {
+                headers: { access_token: localStorage.getItem("access_token") },
+            })
+            .then(({ data }) => {
+                console.log(data)
+            })
+            .catch(console.log)
+    }
+}
+
+export const updatedQuestion = (payload) => {
+    return (dispatch) => {
+        axios
+            .put(`${baseUrl}/admin/question/${payload.idquestion}`, payload, {
+                headers: { access_token: localStorage.getItem("access_token") },
+            })
+            .then(({ data }) => {
+                console.log(data)
+            })
+            .catch(console.log)
+    }
+}
+
+export const deleteQuestion = (payload) => {
+    return (dispatch) => {
+        axios
+            .delete(`${baseUrl}/admin/question/${payload.questionid}`, {
+                headers: { access_token: localStorage.getItem("access_token") },
+            })
+            .then(({ data }) => {
+                dispatch(getQuestions(payload.wacanaid))
             })
             .catch(console.log)
     }

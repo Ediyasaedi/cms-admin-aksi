@@ -10,13 +10,12 @@ function Users() {
     const dispatch = useDispatch()
     const history = useHistory()
     const siswaArr = useSelector((state) => state.users.siswas)
+    const penulisArr = useSelector((state) => state.users.penulis)
     const [role, setRole] = useState("siswa")
-
-    console.log(siswaArr)
 
     useEffect(() => {
         dispatch(getUsers(role))
-    }, [])
+    }, [role])
 
     function dltUser(id) {
         dispatch(deleteUser(id))
@@ -26,6 +25,14 @@ function Users() {
     function edtUser(id) {
         dispatch(getOneUser(id))
         history.push(`/edit-user/${id}`)
+    }
+
+    function changeRole() {
+        if (role === "siswa") {
+            setRole("penulis")
+        } else {
+            setRole("siswa")
+        }
     }
 
     return (
@@ -73,39 +80,86 @@ function Users() {
                                 <table.Th>Email</table.Th>
                                 <table.Th>Nama</table.Th>
                                 <table.Th>Image Url</table.Th>
-                                <table.Th>Role</table.Th>
+                                <table.Th>
+                                    <Button
+                                        mr="2"
+                                        size="sm"
+                                        onClick={changeRole}
+                                    >
+                                        Change Role
+                                    </Button>
+                                </table.Th>
                                 <table.Th>Action</table.Th>
                             </table.Tr>
                         </table.Thead>
                         <table.TBody>
-                            {siswaArr.map((siswa) => {
-                                return (
-                                    <table.Tr key={siswa.id}>
-                                        <table.Td>{siswa.email}</table.Td>
-                                        <table.Td>{siswa.name}</table.Td>
-                                        <table.Td>{siswa.img_url}</table.Td>
-                                        <table.Td>{siswa.role}</table.Td>
-                                        <table.Td>
-                                            <IconButton
-                                                mr="2"
-                                                aria-label="update"
-                                                icon="edit"
-                                                onClick={() =>
-                                                    edtUser(siswa.id)
-                                                }
-                                            />
-                                            <IconButton
-                                                mr="2"
-                                                aria-label="delete"
-                                                icon="delete"
-                                                onClick={() =>
-                                                    dltUser(siswa.id)
-                                                }
-                                            />
-                                        </table.Td>
-                                    </table.Tr>
-                                )
-                            })}
+                            {role === "siswa"
+                                ? siswaArr.map((siswa) => {
+                                      return (
+                                          <table.Tr key={siswa.id}>
+                                              <table.Td>{siswa.email}</table.Td>
+                                              <table.Td>{siswa.name}</table.Td>
+                                              <table.Td>
+                                                  {siswa.img_url}
+                                              </table.Td>
+                                              <table.Td>{siswa.role}</table.Td>
+                                              <table.Td>
+                                                  <IconButton
+                                                      mr="2"
+                                                      aria-label="update"
+                                                      icon="edit"
+                                                      onClick={() =>
+                                                          edtUser(siswa.id)
+                                                      }
+                                                  />
+                                                  <IconButton
+                                                      mr="2"
+                                                      aria-label="delete"
+                                                      icon="delete"
+                                                      onClick={() =>
+                                                          dltUser(siswa.id)
+                                                      }
+                                                  />
+                                              </table.Td>
+                                          </table.Tr>
+                                      )
+                                  })
+                                : penulisArr.map((penulis) => {
+                                      return (
+                                          <table.Tr key={penulis.id}>
+                                              <table.Td>
+                                                  {penulis.email}
+                                              </table.Td>
+                                              <table.Td>
+                                                  {penulis.name}
+                                              </table.Td>
+                                              <table.Td>
+                                                  {penulis.img_url}
+                                              </table.Td>
+                                              <table.Td>
+                                                  {penulis.role}
+                                              </table.Td>
+                                              <table.Td>
+                                                  <IconButton
+                                                      mr="2"
+                                                      aria-label="update"
+                                                      icon="edit"
+                                                      onClick={() =>
+                                                          edtUser(penulis.id)
+                                                      }
+                                                  />
+                                                  <IconButton
+                                                      mr="2"
+                                                      aria-label="delete"
+                                                      icon="delete"
+                                                      onClick={() =>
+                                                          dltUser(penulis.id)
+                                                      }
+                                                  />
+                                              </table.Td>
+                                          </table.Tr>
+                                      )
+                                  })}
                         </table.TBody>
                     </table.Table>
                 </Flex>
