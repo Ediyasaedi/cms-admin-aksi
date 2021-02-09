@@ -28,10 +28,11 @@ export default function Sidebar() {
                 flexDirection="column"
                 mb="5"
             >
-                <Image alt="AKSI LOGO" />
-                <Badge ml="1" variantColor="light">
-                    Assesmen Kompetensi Siswa Indonesia
-                </Badge>
+                <Image
+                    size="200px"
+                    src="http://aksi.puspendik.kemdikbud.go.id/membacadigital/images/logo.png"
+                    alt="Logo Kemendikbud"
+                />
             </Flex>
             <Flex flex="3" flexDirection="column" align="center" h="100vh">
                 <Flex w="100%" flexDirection="row" cursor="pointer">

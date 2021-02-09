@@ -60,7 +60,7 @@ export default function EditSoalForm() {
             <Flex w="100%" h="100vh">
                 <Flex
                     flex="1"
-                    bg="#56657F"
+                    bg="gray.700"
                     direction="column"
                     padding="2"
                     mr="3"

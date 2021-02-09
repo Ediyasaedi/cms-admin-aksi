@@ -11,7 +11,7 @@ function Root() {
     return (
         <Provider store={store}>
             <ThemeProvider theme={theme}>
-                <ColorModeProvider value="dark">
+                <ColorModeProvider value="light">
                     <CSSReset />
                     <App />
                 </ColorModeProvider>

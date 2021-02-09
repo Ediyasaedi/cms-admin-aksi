@@ -85,7 +85,7 @@ export default function DetailWacana() {
                     </TabList>
                     <TabPanels>
                         <TabPanel>
-                            <Flex justify="end">
+                            <Flex justifyContent="flex-end">
                                 <Button
                                     variantColor="teal"
                                     size="md"
@@ -147,7 +147,7 @@ export default function DetailWacana() {
                             </table.Table>
                         </TabPanel>
                         <TabPanel>
-                            <Flex justify="end">
+                            <Flex justifyContent="flex-end">
                                 <Button
                                     variantColor="teal"
                                     size="md"

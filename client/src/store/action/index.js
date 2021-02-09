@@ -13,6 +13,7 @@ import {
 } from "./action-types"
 
 const baseUrl = "http://localhost:3000"
+// const baseUrl = "http://149.129.235.117/"
 
 export const setAuth = (payload) => {
     return {

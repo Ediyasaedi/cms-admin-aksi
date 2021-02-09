@@ -46,7 +46,7 @@ export default function FormLogin() {
 
     return (
         <Flex flexDirection="column">
-            <Heading mb="6">Login to Admin Dashboard</Heading>
+            <Heading mb="6">Login Dashboard Admin</Heading>
             <form onSubmit={(event) => handleOnSubmit(event)}>
                 <FormControl w="80%" mb="4">
                     <FormLabel mb="1">Email</FormLabel>
@@ -62,7 +62,7 @@ export default function FormLogin() {
                     <FormLabel mb="1">Password</FormLabel>
                     <Input
                         name="password"
-                        type="text"
+                        type="password"
                         value={form.password}
                         placeholder="Put your password here"
                         onChange={handleOnChange}
